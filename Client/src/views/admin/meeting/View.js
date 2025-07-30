@@ -20,17 +20,17 @@ const View = () => {
     const [data, setData] = useState()
     const [deleteMany, setDeleteMany] = useState(false);
     const user = JSON.parse(localStorage.getItem("user"))
-    const [isLoding, setIsLoding] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
     const [loading, setLoading] = useState(false)
     const navigate = useNavigate()
     const params = useParams();
 
 
     const fetchData = async () => {
-        setIsLoding(true)
+        setIsLoading(true)
         let response = await getApi('api/meeting/view/', param.id)
         setData(response?.data);
-        setIsLoding(false)
+        setIsLoading(false)
     }
 
     useEffect(() => {
@@ -63,9 +63,9 @@ const View = () => {
         }
     };
 
-    const handleDeleteMeeting = async (ids) => {
+    const handleDeleteMeeting = async () => {
         try {
-            setIsLoding(true)
+            setIsLoading(true)
             let response = await deleteApi('api/meeting/delete/', params.id)
             if (response.status === 200) {
                 setDeleteMany(false)
@@ -75,7 +75,7 @@ const View = () => {
             console.log(error)
         }
         finally {
-            setIsLoding(false)
+            setIsLoading(false)
         }
     }
 
@@ -83,7 +83,7 @@ const View = () => {
 
     return (
         <>
-            {isLoding ?
+            {isLoading ?
                 <Flex justifyContent={'center'} alignItems={'center'} width="100%" >
                     <Spinner />
                 </Flex> : <>
@@ -121,7 +121,7 @@ const View = () => {
                                     </GridItem>
                                     <GridItem colSpan={{ base: 2, md: 1 }}>
                                         <Text fontSize="sm" fontWeight="bold" color={'blackAlpha.900'}> Created By </Text>
-                                        <Text>{data?.createdByName ? data?.createdByName : ' - '}</Text>
+                                        <Text>{data?.createBy ? `${data.createBy?.firstName} ${data?.createBy?.lastName}`  : '-'}</Text>
                                     </GridItem>
 
                                     <GridItem colSpan={{ base: 2, md: 1 }}>
@@ -141,24 +141,24 @@ const View = () => {
                                         <Text>{data?.notes ? data?.notes : ' - '}</Text>
                                     </GridItem>
                                     <GridItem colSpan={{ base: 2, md: 1 }}>
-                                        <Text fontSize="sm" fontWeight="bold" color={'blackAlpha.900'}> Attendes </Text>
-                                        {data?.related === 'Contact' && contactAccess?.view ? data?.attendes && data?.attendes.map((item) => {
+                                        <Text fontSize="sm" fontWeight="bold" color={'blackAlpha.900'}> Attendees </Text>
+                                        {data?.related === 'Contact' && contactAccess?.view ? data?.attendees && data?.attendees.map((item) => {
                                             return (
                                                 <Link to={`/contactView/${item._id}`}>
-                                                    <Text color='brand.600' sx={{ '&:hover': { color: 'blue.500', textDecoration: 'underline' } }}>{item.firstName + ' ' + item.lastName}</Text>
+                                                    <Text color='brand.600' sx={{ '&:hover': { color: 'blue.500', textDecoration: 'underline' } }}>{item.fullName || "-"}</Text>
                                                 </Link>
                                             )
-                                        }) : data?.related === 'Lead' && leadAccess?.view ? data?.attendesLead && data?.attendesLead.map((item) => {
+                                        }) : data?.related === 'Lead' && leadAccess?.view ? data?.attendeesLead && data?.attendeesLead.map((item) => {
                                             return (
                                                 <Link to={`/leadView/${item._id}`}>
                                                     <Text color='brand.600' sx={{ '&:hover': { color: 'blue.500', textDecoration: 'underline' } }}>{item.leadName}</Text>
                                                 </Link>
                                             )
-                                        }) : data?.related === 'contact' ? data?.attendes && data?.attendes.map((item) => {
+                                        }) : data?.related === 'contact' ? data?.attendees && data?.attendees.map((item) => {
                                             return (
                                                 <Text color='blackAlpha.900' >{item.firstName + ' ' + item.lastName}</Text>
                                             )
-                                        }) : data?.related === 'lead' ? data?.attendesLead && data?.attendesLead.map((item) => {
+                                        }) : data?.related === 'lead' ? data?.attendeesLead && data?.attendeesLead.map((item) => {
                                             return (
                                                 <Text color='blackAlpha.900' >{item.leadName}</Text>
                                             )

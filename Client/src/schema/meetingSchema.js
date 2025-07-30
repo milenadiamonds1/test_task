@@ -2,8 +2,8 @@ import * as yup from 'yup'
 
 export const MeetingSchema = yup.object({
     agenda: yup.string().required("Agenda Is required"),
-    attendes: yup.array().of(yup.string().trim()),
-    attendesLead: yup.array().of(yup.string().trim()),
+    attendees: yup.array().of(yup.string().trim()),
+    attendeesLead: yup.array().of(yup.string().trim()),
     location: yup.string(),
     related: yup.string(),
     dateTime: yup.string().required("Date Time Is required"),

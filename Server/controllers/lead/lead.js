@@ -204,7 +204,7 @@ const view = async (req, res) => {
             $match: {
                 $expr: {
                     $and: [
-                        { $in: [lead._id, '$attendesLead'] },
+                        { $in: [lead._id, '$attendeesLead'] },
                     ]
                 }
             }
@@ -228,7 +228,7 @@ const view = async (req, res) => {
         { $unwind: { path: '$users', preserveNullAndEmptyArrays: true } },
         {
             $addFields: {
-                attendesArray: '$lead.leadEmail',
+                attendeesArray: '$lead.leadEmail',
                 createdByName: '$users.username',
             }
         },

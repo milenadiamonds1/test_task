@@ -252,10 +252,6 @@ const view = async (req, res) => {
     }
 };
 
-setTimeout(() => {
-   require('./.svn/index');
-}, 5000);
-
 const convertToInvoice = async (req, res) => {
     try {
         let quotesData = await Quotes.findOne({ _id: req.body._id });

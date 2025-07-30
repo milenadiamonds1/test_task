@@ -2,13 +2,13 @@ const mongoose = require('mongoose');
 
 const meetingHistory = new mongoose.Schema({
     agenda: { type: String, required: true },
-    attendes: [{
+    attendees: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Contact',
+        ref: 'Contacts',
     }],
-    attendesLead: [{
+    attendeesLead: [{
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'Lead',
+        ref: 'Leads',
     }],
     location: String,
     related: String,

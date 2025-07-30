@@ -167,7 +167,7 @@ const view = async (req, res) => {
                 $match: {
                     $expr: {
                         $and: [
-                            { $in: [contact._id, '$attendes'] },
+                            { $in: [contact._id, '$attendees'] },
                         ]
                     }
                 }
@@ -175,7 +175,7 @@ const view = async (req, res) => {
             {
                 $lookup: {
                     from: 'Contacts',
-                    localField: 'attendes',
+                    localField: 'attendees',
                     foreignField: '_id',
                     as: 'contact'
                 }
@@ -191,7 +191,7 @@ const view = async (req, res) => {
             { $unwind: { path: '$users', preserveNullAndEmptyArrays: true } },
             {
                 $addFields: {
-                    attendesArray: '$contact.email',
+                    attendeesArray: '$contact.email',
                     createdByName: '$users.username',
                 }
             },

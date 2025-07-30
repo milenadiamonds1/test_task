@@ -5,9 +5,9 @@ import Spinner from 'components/spinner/Spinner'
 import { GiClick } from "react-icons/gi";
 
 const MultiContactModel = (props) => {
-    const { onClose, isOpen, fieldName, setFieldValue,data } = props
+    const { onClose, isOpen, fieldName, setFieldValue, data } = props
     const [selectedValues, setSelectedValues] = useState([]);
-    const [isLoding, setIsLoding] = useState(false)
+    const [isLoading, setIsLoading] = useState(false)
 
     const columns = [
         { Header: "#", accessor: "_id", isSortable: false, width: 10 },
@@ -27,7 +27,7 @@ const MultiContactModel = (props) => {
 
     const handleSubmit = async () => {
         try {
-            setIsLoding(true)
+            setIsLoading(true)
             setFieldValue(fieldName, uniqueValues)
             onClose()
         }
@@ -35,7 +35,7 @@ const MultiContactModel = (props) => {
             console.log(e)
         }
         finally {
-            setIsLoding(false)
+            setIsLoading(false)
         }
     }
 
@@ -47,13 +47,13 @@ const MultiContactModel = (props) => {
                 <ModalHeader>Select Contact</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    {isLoding ?
+                    {isLoading ?
                         <Flex justifyContent={'center'} alignItems={'center'} width="100%" >
                             <Spinner />
                         </Flex> : <ContactTable tableData={data} type='multi' selectedValues={selectedValues} setSelectedValues={setSelectedValues} columnsData={columns} title="Contact" />}
                 </ModalBody>
                 <ModalFooter>
-                    <Button variant='brand' onClick={handleSubmit} disabled={isLoding ? true : false} leftIcon={<GiClick />}> {isLoding ? <Spinner /> : 'Select'}</Button>
+                    <Button variant='brand' onClick={handleSubmit} disabled={isLoading ? true : false} leftIcon={<GiClick />}> {isLoading ? <Spinner /> : 'Select'}</Button>
                     <Button onClick={() => onClose()}>Close</Button>
                 </ModalFooter>
             </ModalContent>
